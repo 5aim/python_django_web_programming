@@ -26,7 +26,7 @@ SECRET_KEY = 'os.environ.get("SECRET_KEY")'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 # DEBUG = False : 운영모드. 운영모드의 경우 반드시 아래 ALLOWED_HOSTS에 서버의 IP나 도메인을 입력.
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = [] # ['localhost', '127.0.0.1']
 
 
 # Application definition
