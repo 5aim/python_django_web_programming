@@ -21,7 +21,7 @@ class Post(models.Model):
         verbose_name = 'post' # 테이블 단수 별칭
         verbose_name_plural = 'posts' # 테이블 복수 별칭
         db_table = 'blog_posts' # default : 앱이름_모델클래스명. 즉 blog_post가 됨.
-        ordering = ('-modify_dt') # 모델 객체 출력시 내림차순 정렬
+        ordering = ('-modify_dt',) # 모델 객체 출력시 내림차순 정렬
 
     def __str__(self):
         return self.title
