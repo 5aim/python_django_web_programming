@@ -1,0 +1,22 @@
+<h1>Post Archive for {{ year¦date:"Y" }}</h1>
+
+<ul>
+    {% for date in date_list %}
+    <!-- DateQuerySet 객체 리스트를 담고 있음. 들어있는 객체는 datetime.date 타입의 객체 -->
+    <li style="display: inline;">
+    <a href="{% url 'blog:post_month_archive' year¦date:'Y' date¦date:'b' %}">{{ date¦date:"F" }}</a></li>
+    <!-- PostMAV 클래스의 month_format속성과 맞춰야 함. 'F', 'b' -->
+    {% endfor %}
+</ul>
+<br>
+
+<div>
+    <ul>
+        {% for post in object_list %}
+        <li>{{ post.modify_dt¦date:"Y-m-d" }}&nbsp;&nbsp;&nbsp;
+            <a href="{{ post.get_absolute_url }}"><strong>{{ post.title }}</strong></a>
+        </li>
+        {% endfor %}
+        <!-- latest 컨텍스트 변수는 ArchiveIndexView에서만 정의된 변수이므로 여기서 사용할 수 없음을 유의. post_archive.html -->
+    </ul>
+</div>
