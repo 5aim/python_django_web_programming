@@ -9,16 +9,16 @@
     {% endif %}
 
     {% if object.get_next %}
-    ¦ <a href="{{ object.get_next.get_absolute_url }}" title="View next post">{{ object.get_next }} --&raquo;</a>
-        <!-- HTML 특수문자 (>>) URL 링크는 /blog/post/slug단어/ -->
+    | <a href="{{ object.get_next.get_absolute_url }}" title="View next post">{{ object.get_next }} --&raquo;</a>
+    <!-- HTML 특수문자 (>>) URL 링크는 /blog/post/slug단어/ -->
     {% endif %}
 </p>
 
-<p>{{ object.modify_dt¦date:"j F Y" }}</p>
+<p>{{ object.modify_dt|date:"j F Y" }}</p>
 <!-- 12 July 2015 -->
 <br>
 
 <div>
-    {{ object.content¦linebreaks }}
-    <!-- linebreaks 템플릿 필터는 ₩n (newline)을 인식하게 함 -->
+    {{ object.content|linebreaks }}
+    <!-- linebreaks 템플릿 필터는 ₩n (newline)을 인식하게  -->
 </div>

@@ -13,7 +13,7 @@ from blog.models import Post
 # ListView generic view : 테이블로부터 객체 리스트를 가져와 그 리스트를 출력해줌.
 class PostLV(ListView):
     model = Post # 대상 테이블
-    templates_name = 'blog/post_all.html' # 템플릿 지정. 디폴트 : blog/post_list.html이 됨.
+    template_name = 'blog/post_all.html' # 템플릿 지정. 디폴트 : blog/post_list.html이 됨.
     context_object_name = 'posts' # 템플릿으로 넘겨주는 객체 리스트에 대한 컨텍스트 변수명 지정. 디폴트 : object_list
     paginate_by = 2 # 한페이지에 보여주는 객체 리스트의 숫자는 2. 장고 제공 페이징 기능 사용. 페이징 기능이 활성화되면 객체 리스트 하단에 페이지를 이동할 수 있는 버튼을 만들 수 있음.
 
