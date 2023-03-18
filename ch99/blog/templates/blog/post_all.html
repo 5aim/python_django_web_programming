@@ -1,0 +1,29 @@
+<!-- 별도 html 태그 지정이 없으면 Django는 body영역으로 간주함. -->
+<h1>Blog List</h1>
+<br>
+
+{% for post in posts %}
+    <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+    <!-- <h3><a href="{% url 'blog:post_detail' post.slug %}">{{ post.title }}</a></h3> 위와 동일함. -->
+    {{ post.modify_dt¦date:"N d, Y" }}
+    <p>{{ post.description }}</p>
+{% endfor %}
+
+<br>
+
+<div>
+    <span>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">PreviousPage</a>
+            <!-- ?page=3 -->
+        {% endif %}
+
+        <!-- 현재 페이지 번호, 총 페이지 수 -->
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+
+        {% if page_obj.has_next %}
+            <a href="?page= {{ page_obj.next_page_number }}">NextPage</a>
+            <!-- ?page=5 -->
+        {% endif %}
+    </span>
+</div>
