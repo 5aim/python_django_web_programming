@@ -1,14 +1,68 @@
 <!-- base.html 상속 -->
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}home.html{% endblock %}
 
-{% block content %}
-    <h4>This is contents area</h4>
+<!-- block 오버라이딩. 별도의 css 파일로 분리할 수도 있음. -->
+{% block extra-style %}
+<style type="text/css">
+    .home-image {
+        background-image: url("{% static 'img/lion.jpeg' %}");
+        background-repeat: no-repeat;
+        background-position: 0 0, center;
+        background-size: 100%;
+        height: 500px;
+        padding: 20px 0 0 20px;
+    }
+
+    .title {
+        color: #c80;
+        font-weight: bold;
+    }
+
+    .powered {
+        position: relative;
+        top: 77%;
+        color: #cc0;
+        font-style: italic;
+    }
+
+</style>
 {% endblock %}
+
+{% block content %}
+    <div class="home-image">
+        <h2 class="title">Django - Python Web Programming</h2>
+        <h4 class="powered"><i class="fas fa-arrow-circle-right"></i>powered by django and bootstrap</h4>
+    </div>
+
+    <hr style="margin: 10px 0;">
+
+    <div class="row text-center">
+        <div class="col-sm-6">
+            <h3>Bookmark App</h3>
+            <p>Bookmark is a Uniform Resource Identifier (URI)
+                that is stored for later retrieval in any of various storage formats.
+                You can store your own bookmarks by Bookmark application.
+                It's also possible to update or delete your bookmarks.
+            </p>
+        </div>
+        <div class="col-sm-6">
+            <h3>Blog App</h3>
+            <p>
+                This application makes it possible to log daily events or write your own interests
+                such as hobbies, techniques, etc.
+                A typical blog combines text, digital images, and links to other blogs, web pages,
+                and other media related to its topic.
+            </p>
+        </div>
+    </div>
+{% endblock content %}
 
 {% block footer %}
 <footer class="fixed-bottom bg-info">
-    <h4>This is footer area</h4>
+    <div class="text-white fst-italic text-sm-end">Copyright &copy; 2019 DjangoBook by shkim</div>
 </footer>
 {% endblock %}
