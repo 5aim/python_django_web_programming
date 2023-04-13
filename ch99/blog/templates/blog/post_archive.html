@@ -1,26 +1,32 @@
-<h1>Post Archive until {% now "N d, Y" %}</h1>
-<!-- 현재 날짜, 시간 N d, Y 포맷 문자열은 July 18, 2015 -->
-<ul>
+{% extends "base.html" %}
+
+{% block title %}post_archive.html{% endblock %}
+
+{% block content %}
+
+    <h1>Post Archive until {% now "N d, Y" %}</h1>
+    <!-- 현재 날짜, 시간 N d, Y 포맷 문자열은 July 18, 2015 -->
+
     {% for date in date_list %}
     <!-- DataQuerySet 객체 리스트를 담고 있는 date_list. -->
-    <li style="display: inline;">
-        <a href="{% url 'blog:post_year_archive' date|date:'Y' %}">Year{{ date|date:"Y" }}</a>
-        <!-- 연도에 작성, 생성, 수정된 포스트를 보여주는 URL이 링크되어 있음. -->
-    </li>
+    <a href="{% url 'blog:post_year.archive' date|date:'Y' %}" class="btn btn-outline-primary btn-sm mx-1">Year-{{ date|date:'Y' }}</a>
+    <!-- 연도에 작성, 생성, 수정된 포스트를 보여주는 URL이 링크되어 있음. -->
     {% endfor %}
-</ul>
-<br />
 
-<div>
-    <ul>
-        {% for post in object_list %}
-        <!-- view에서 넘겨준 객체 리스트가 담겨 있고 object_list, latest 둘 다 가능. -->
-        <li>
-            {{ post.modify_dt|date:"Y-m-d" }}&nbsp;&nbsp;&nbsp;
-            <!-- 수정일. -->
-            <a href="{{ post.get_absolute_url }}"><strong>{{ post.title }}</strong></a>
-            <!-- 제목. 해당 포스트 링크 연결 -->
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+    <br><br>
+
+    <div>
+        <ul>
+            {% for post in object_list %}
+            <!-- view에서 넘겨준 객체 리스트가 담겨 있고 object_list, latest 둘 다 가능. -->
+            <li class="h5">
+                {{ post.modify_dt|date:"Y-m-d" }}&emsp;
+                <!-- 수정일. -->
+                <a href="{{ post.get_absolute_url }}"><strong>{{ post.title }}</strong></a>
+                <!-- 제목. 해당 포스트 링크 연결 -->
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+{% endblock%}

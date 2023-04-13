@@ -1,6 +1,7 @@
 from django.contrib import admin # 필요한 모듈과 함수 import
 from django.urls import path, include
 from mysite.views import HomeView
+from mysite.views import UserCreateView, UserCreateDoneTV
 
 # from bookmark.views import BookmarkLV, BookmarkDV # view 모듈 관련 class import
 # from bookmark.views import * # 권장하지 않는 방식임. 불필요한 view를 import해서 충돌할 가능성 있음.
@@ -12,9 +13,14 @@ from mysite.views import HomeView
 
 urlpatterns = [ # path()함수는 route, view 2개의 필수 인자. kwargs, name 2개의 선택 인자를 받음. name 인자는 templates file에서 많이 사용됨.
     path('', HomeView.as_view(), name='home'),
+    
     path('admin/', admin.site.urls), # admin site 정의.
     path('bookmark/', include('bookmark.urls')),
     path('blog/', include('blog.urls')),
+    
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/register/', UserCreateView.as_view(), name='register'),
+    path('accounts/register/done/', UserCreateDoneTV.as_view(), name='register_done'),
 
     # class-based views
     # path('bookmark/', BookmarkLV.as_view(), name='index'), # URL 패턴의 이름은 index

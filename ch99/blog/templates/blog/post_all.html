@@ -1,3 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}post_all.html{% endblock %}
+
+{% block content %}
+
 <!-- 별도 html 태그 지정이 없으면 Django는 body영역으로 간주함. -->
 <h1>Blog List</h1>
 <br>
@@ -27,3 +33,5 @@
         {% endif %}
     </span>
 </div>
+
+{% endblock %}
