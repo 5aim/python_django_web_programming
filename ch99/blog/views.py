@@ -7,6 +7,12 @@ from django.conf import settings
 # 테이블 조회를 위해 Post 모델 임포트
 from blog.models import Post
 
+# django formview
+from django.views.generic import FormView
+from blog.forms import PostSearchForm # forms.py
+from django.db.models import Q # 검색기능에 필요한 Q 클래스
+from django.shortcuts import render
+
 
 # Create your views here.
 
@@ -79,3 +85,20 @@ class TaggedObjectLV(ListView):
         # path('tag/<str:tag>', views.TaggedObjectLV.as_view(), name='tagged_object_list'),
         return context
         # 컨텍스트 변수들이 템플릿 파일로 전달됨.
+
+# FormView 제네릭 뷰는 GET요청인 경우 폼을 화면에 보여주고 사용자의 입력을 기다림. 데이터 입력 후 제출하면 POST 요청으로 접수. 데이터에 대한 유효성을 검사.
+class SearchFormView(FormView):
+    form_class = PostSearchForm # 폼으로 사용될 클래스를 지정.
+    template_name = 'blog/post_search.html'
+    
+    # 데이터가 유효하면 form_valid()함수를 실행한 후 적절한 URL로 리다이렉트
+    def form_valid(self, form):
+        searchWord = form.cleaned_data['search_word']
+        post_list = Post.objects.filter(Q(title__icontains=searchWord) | Q(description__icontains=searchWord) | Q(content__icontains=searchWord)).distinct()
+        
+        context = {}
+        context['form'] = form
+        context['search_term'] = searchWord
+        context['object_list'] = post_list
+        
+        return render(self.request, self.template_name, context)  # No Redirection

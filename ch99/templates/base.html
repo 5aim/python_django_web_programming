@@ -57,14 +57,10 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Search</a></li>
+                            <li><a class="dropdown-item" href="{% url 'blog:search' %}">Search</a></li>
                         </ul>
                     </li>
                 </ul>
-                <form class="d-flex d-inline my-2" action="" method="post">
-                    {% csrf_token %}
-                    <input class="form-control me-2" type="search" placeholder="global search" name="search_word">
-                </form>
             </div>
         </div>
     </nav>
