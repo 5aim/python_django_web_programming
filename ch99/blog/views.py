@@ -2,6 +2,7 @@
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthArchiveView
 from django.views.generic.dates import DayArchiveView, TodayArchiveView
+from django.conf import settings
 
 # 테이블 조회를 위해 Post 모델 임포트
 from blog.models import Post
@@ -21,6 +22,15 @@ class PostLV(ListView):
 # DetailView generic view : 테이블로부터 특정 객체를 가져와 그 객체의 상세 정보를 출력함. 테이블에서 특정 객체를 조회하기 위한 키는 기본 키 대신 slug 속성을 사용하므로 이 slug 파라미터는 URLconf에서 추출해 view로 넘겨줌.
 class PostDV(DetailView):
     model = Post
+    
+    def get_context_data(self, **kwargs):
+        # 기존 context 변수를 구하고 이를 context 변수에 할당.
+        context = super().get_context_data(**kwargs)
+        context['disqus_short'] = f"{settings.DISQUS_SHORTNAME}"
+        context['disqus_id'] = f"post-{self.object.id}-{self.object.slug}"
+        context['disqus_url'] = f"{settings.DISQUS_MY_DOMAIN}{self.object.get_absolute_url()}"
+        context['disqus_title'] = f"{self.object.slug}"
+        return context
 
 #--- ArchiveView
 # Archive generic view : 테이블에서부터 객체 리스트를 가져와서 날짜 필드를 기준으로 최신 객체를 먼저 출력.

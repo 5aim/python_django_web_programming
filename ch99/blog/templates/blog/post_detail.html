@@ -2,50 +2,87 @@
 
 {% block title %}post_detail.html{% endblock %}
 
+{% block extra-style %}
+<style>
+    .post-body{
+        width: 80%;
+        margin: auto;
+        font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+        font-size: 16px;
+    }
+</style>
+{% endblock extra-style %}
+
 {% block content %}
-<!-- PostDV 에서 컨텍스트 변수로 넘겨주는 특정 객체임. -->
-<h2>{{ object.title }}</h2>
+<div class="post-body">
+    <!-- PostDV 에서 컨텍스트 변수로 넘겨주는 특정 객체임. -->
+    <h2>{{ object.title }}</h2>
 
-<p>
-    {% if object.get_previous %}
-    <a href="{{ object.get_next.get_absolute_url }}" title="View Previous post">
-        <!-- HTML 특수문자 (<<) URL 링크는 /blog/post/slug단어/와 같은 형식 -->
-        <i class="fas fa-arrow-circle-left"></i> {{ object.get_next }}
-    </a>
-    {% endif %}
+    <p>
+        {% if object.get_previous %}
+        <a href="{{ object.get_next.get_absolute_url }}" title="View Previous post">
+            <!-- HTML 특수문자 (<<) URL 링크는 /blog/post/slug단어/와 같은 형식 -->
+            <i class="fas fa-arrow-circle-left"></i> {{ object.get_next }}
+        </a>
+        {% endif %}
 
-    {% if object.get_previous %}
-    | <a href="{{ object.get_previous.get_absolute_url }}" title="View next post">
-        <!-- HTML 특수문자 (>>) URL 링크는 /blog/post/slug단어/ -->
-        {{ object.get_previous }} <i class="fas fa-arrow-circle-right"></i>
-    </a>
-    {% endif %}
-</p>
+        {% if object.get_previous %}
+        | <a href="{{ object.get_previous.get_absolute_url }}" title="View next post">
+            <!-- HTML 특수문자 (>>) URL 링크는 /blog/post/slug단어/ -->
+            {{ object.get_previous }} <i class="fas fa-arrow-circle-right"></i>
+        </a>
+        {% endif %}
+    </p>
 
-<p>{{ object.modify_dt|date:"j F Y" }}</p>
-<!-- 12 July 2015 -->
-<br>
+    <p>{{ object.modify_dt|date:"j F Y" }}</p>
+    <!-- 12 July 2015 -->
+    <br>
 
-<div class="body">
-    {{ object.content|linebreaks }}
-    <!-- linebreaks 템플릿 필터는 ₩n (newline)을 인식하게  -->
+    <div class="body">
+        {{ object.content|linebreaks }}
+        <!-- linebreaks 템플릿 필터는 ₩n (newline)을 인식하게  -->
+    </div>
+
+    <br>
+    <div>
+        <b>TAGS</b><i class="fas fa-tag"></i>
+        <!-- taggit_templatetag2_tags 모듈 로딩 -->
+        {% load taggit_templatetags2_tags %}
+        <!-- object 객체에 달려있는 태그들의 리스트 추출. object 객체는 PostDV 클래스형 뷰에서 넘겨주는 컨텍스트 변수로 특정 Post객체가 담겨있음. -->
+        {% get_tags_for_object object as "tags" %}
+        <!-- 추출한 tags를 순회하면서 tag.name을 추출. -->
+        {% for tag in tags %}
+        <!-- tag.name을 인자로 넘김 -->
+        <a href="{% url 'blog:tagged_object_list' tag.name %}">{{tag.name}}</a>
+        {% endfor %}
+        &emsp;
+        <!-- TagCloud 버튼 출력 -->
+        <a href="{% url 'blog:tag_cloud' %}"><span class="btn btn-info btn-sm">TagCloud</span></a>
+
+        <br>
+        <div id="disqus_thread"></div>
+        {% endblock %}
 </div>
 
-<br>
-<div>
-    <b>TAGS</b><i class="fas fa-tag"></i>
-    <!-- taggit_templatetag2_tags 모듈 로딩 -->
-    {% load taggit_templatetags2_tags %}
-    <!-- object 객체에 달려있는 태그들의 리스트 추출. object 객체는 PostDV 클래스형 뷰에서 넘겨주는 컨텍스트 변수로 특정 Post객체가 담겨있음. -->
-    {% get_tags_for_object object as "tags" %}
-    <!-- 추출한 tags를 순회하면서 tag.name을 추출. -->
-    {% for tag in tags %}
-    <!-- tag.name을 인자로 넘김 -->
-    <a href="{% url 'blog:tagged_object_list' tag.name %}">{{tag.name}}</a>
-    {% endfor %}
-    &emsp;
-    <!-- TagCloud 버튼 출력 -->
-    <a href="{% url 'blog:tag_cloud' %}"><span class="btn btn-info btn-sm">TagCloud</span></a>
-
+    {% block extra-script %}
+    <script>
+        /**
+        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+        *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+        
+        var disqus_config = function () {
+            this.page.identifier = '{{ disqus_id }}'
+            this.page.url = '{{ disqus_url }}'  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.title = '{{ disqus_title }}'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://{{ disqus_short }}.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
 {% endblock %}

@@ -140,3 +140,6 @@ TAGGIT_LIMIT = 50
 
 LOGIN_URL = '/account/login/'
 LOGIN_REDIRECT_URL = '/'
+
+DISQUS_SHORTNAME = 'hj-pydjango-web-programming'
+DISQUS_MY_DOMAIN = 'http://127.0.0.1:8000'
