@@ -1,5 +1,5 @@
 # class generic view 임포트
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthArchiveView
 from django.views.generic.dates import DayArchiveView, TodayArchiveView
 
@@ -49,3 +49,23 @@ class PostDAV(DayArchiveView):
 class PostTAV(TodayArchiveView):
     model = Post
     date_field = 'modify_dt' # 변경 날짜가 오늘인 포스트를 검색. 그 포스트의 리스트 출력.
+    
+class TagCloudTV(TemplateView):
+    template_name = 'taggit/taggit_cloud.html'
+    # 클라우드 처리 기능이 뷰에 있지 않고 taggit_cloud.html에 {% get_tagcloud %}로 처리.
+
+class TaggedObjectLV(ListView):
+    template_name = 'taggit/taggit_post_list.html'
+    model = Post
+    
+    def get_queryset(self):
+        return Post.objects.filter(tags__name=self.kwargs.get('tag'))
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # 상위 클래스의 컨텍스트 변수, 즉 변경 전의 컨텍스트 변수를 구함.
+        context['tagname'] = self.kwargs['tag']
+        # 추가할 컨텍스트 변수명은 tagname. URL에서 tag파라미터로 넘어온 값을 사용.
+        # path('tag/<str:tag>', views.TaggedObjectLV.as_view(), name='tagged_object_list'),
+        return context
+        # 컨텍스트 변수들이 템플릿 파일로 전달됨.

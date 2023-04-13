@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse # URL 패턴을 만들어주는 장고의 내장 함수
+from taggit.managers import TaggableManager
 
 
 class Post(models.Model):
@@ -16,6 +17,7 @@ class Post(models.Model):
     # auto now add : 객체가 생성되면 자동으로 시간을 기록
     modify_dt = models.DateTimeField('MODIFY DATE', auto_now=True)
     # auto now : 데이터베이스에 저장될 때 시간을 기록.
+    tags = TaggableManager(blank=True)
 
     class Meta:
         verbose_name = 'post' # 테이블 단수 별칭

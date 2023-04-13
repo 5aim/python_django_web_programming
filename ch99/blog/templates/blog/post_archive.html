@@ -9,7 +9,7 @@
 
     {% for date in date_list %}
     <!-- DataQuerySet 객체 리스트를 담고 있는 date_list. -->
-    <a href="{% url 'blog:post_year.archive' date|date:'Y' %}" class="btn btn-outline-primary btn-sm mx-1">Year-{{ date|date:'Y' }}</a>
+    <a href="{% url 'blog:post_year_archive' date|date:'Y' %}" class="btn btn-outline-primary btn-sm mx-1">Year-{{ date|date:'Y' }}</a>
     <!-- 연도에 작성, 생성, 수정된 포스트를 보여주는 URL이 링크되어 있음. -->
     {% endfor %}
 
