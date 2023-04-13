@@ -26,8 +26,26 @@
 <!-- 12 July 2015 -->
 <br>
 
-<div>
+<div class="body">
     {{ object.content|linebreaks }}
     <!-- linebreaks 템플릿 필터는 ₩n (newline)을 인식하게  -->
+</div>
+
+<br>
+<div>
+    <b>TAGS</b><i class="fas fa-tag"></i>
+    <!-- taggit_templatetag2_tags 모듈 로딩 -->
+    {% load taggit_templatetag2_tags %}
+    <!-- object 객체에 달려있는 태그들의 리스트 추출. object 객체는 PostDV 클래스형 뷰에서 넘겨주는 컨텍스트 변수로 특정 Post객체가 담겨있음. -->
+    {% get_tags_for_object object as "tags" %}
+    <!-- 추출한 tags를 순회하면서 tag.name을 추출. -->
+    {% for tag in tags %}
+    <!-- tag.name을 인자로 넘김 -->
+    <a href="{% url 'blog:tagged_object_list' tag.name %}">{{tag.name}}</a>
+    {% endfor %}
+    &emsp;
+    <!-- TagCloud 버튼 출력 -->
+    <a href="{% url 'blog:tag_cloud' %}"><span class="btn btn-info btn-sm">TagCloud</span></a>
+
 </div>
 {% endblock %}
