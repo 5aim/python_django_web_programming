@@ -23,13 +23,13 @@
 {% endblock %}
 
 {% block content %}
-<h1>Blog Tag</h1>
+<h1>Blog Tag Cloud</h1>
 <br>
 
 <div class="tag-cloud">
     {% load taggit_templatetags2_tags %}
     <!-- 모든 태그를 추출. tag라는 템플릿 변수에 할당 -->
-    {% get_tagcloud as tag %}
+    {% get_tagcloud as tags %}
     <!-- tags변수를 순회하면서 tag.name(tag.num_times)를 출력 -->
     {% for tag in tags %}
     <span class="tag-{{tag.weight|floatformat:0}}">
