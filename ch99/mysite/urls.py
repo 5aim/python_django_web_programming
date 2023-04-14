@@ -1,7 +1,11 @@
 from django.contrib import admin # 필요한 모듈과 함수 import
 from django.urls import path, include
+from django.conf.urls.static import static # 정적 파일을 처리하기 위해 그에 맞는 URL 패턴을 반환하는 함수
+from django.conf import settings # settings 변수를 import
+
 from mysite.views import HomeView
 from mysite.views import UserCreateView, UserCreateDoneTV
+
 
 # from bookmark.views import BookmarkLV, BookmarkDV # view 모듈 관련 class import
 # from bookmark.views import * # 권장하지 않는 방식임. 불필요한 view를 import해서 충돌할 가능성 있음.
@@ -17,6 +21,7 @@ urlpatterns = [ # path()함수는 route, view 2개의 필수 인자. kwargs, nam
     path('admin/', admin.site.urls), # admin site 정의.
     path('bookmark/', include('bookmark.urls')),
     path('blog/', include('blog.urls')),
+    path('photo/', include('photo.urls')),
     
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/register/', UserCreateView.as_view(), name='register'),
@@ -25,4 +30,5 @@ urlpatterns = [ # path()함수는 route, view 2개의 필수 인자. kwargs, nam
     # class-based views
     # path('bookmark/', BookmarkLV.as_view(), name='index'), # URL 패턴의 이름은 index
     # path('bookmark/<int:pk>', BookmarkDV.as_view(), name='detail'), # URL 패턴의 이름은 detail
-]
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+
