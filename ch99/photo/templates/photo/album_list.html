@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}album_list.html{% endblock %}
+
+{% block extra-style %}
+<style>
+    .thumbnail {
+        border: 3px solid #ccc;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+    <!-- AlbumLV 클래스형 뷰에서 넘겨주는 컨텍스트 변수로서 Album list가 담겨있음. -->
+    <!-- 앨범 객체 리스트 -->
+    {% for item in object_list %}
+
+    <div class="mt-5">
+        <!-- margin top -5 -->
+        <a class="h2" href="{% url 'photo:album_detail' item.id %}">{{ item.name }}</a>&emsp;
+        <span class="fst-italic h5">{{ item.description }}</span>
+    </div>
+
+    <hr style="margin: 0 0 20px 0;">
+
+    <div class="row">
+        <!-- 5개의 썸네일 사진 출력 -->
+        {% for photo in item.photo_set.all|slice:":5" %}
+        <div class="ml-5">
+            <div class="thumbnail">
+                <a href="{{ photo.get_absolute_url }}">
+                    <!-- 썸네일 사진에 대한 URL -->
+                    <img src="{{ photo.image.thumb_url }}" style="width: 100%">
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% endfor %}
+{% endblock %}
