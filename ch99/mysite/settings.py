@@ -38,11 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bookmark.apps.BookmarkConfig',  # 애플리케이션의 설정 클래스로 등록하는 것이 더 정확한 방법.
-    'blog.apps.BlogConfig',
     'taggit.apps.TaggitAppConfig',
     'taggit_templatetags2',
-    'photo.apps.PhotoConfig'
+    'widget_tweaks'
+    'bookmark.apps.BookmarkConfig',  # 애플리케이션의 설정 클래스로 등록하는 것이 더 정확한 방법.
+    'blog.apps.BlogConfig',
+    'photo.apps.PhotoConfig',
 ]
 
 MIDDLEWARE = [
