@@ -17,12 +17,6 @@
 
     <br><br>
 
-    <li style="display: inline;">
-        <a href="{% url 'blog:post_month_archive' year|date:'Y' date|date:'b' %}">{{ date|date:"F" }}</a>
-    </li>
-
-    <br>
-
     <div>
         <ul>
             {% for post in object_list %}

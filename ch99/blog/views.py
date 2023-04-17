@@ -13,6 +13,12 @@ from blog.forms import PostSearchForm # forms.py
 from django.db.models import Q # 검색기능에 필요한 Q 클래스
 from django.shortcuts import render
 
+# 작성, 편집, 삭제 기능
+from django.views.generic import CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from mysite.views import OwnerOnlyMixin
+
 
 # Create your views here.
 
@@ -102,3 +108,38 @@ class SearchFormView(FormView):
         context['object_list'] = post_list
         
         return render(self.request, self.template_name, context)  # No Redirection
+
+
+# 블로그 작성
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    fields = ['title', 'slug', 'description', 'content', 'tags']
+    # slug 필드는 입력하지 말라는 초기값 설정.
+    initial = {'slug': 'auto-filling-do-not-input'}
+    # fileds = ['title', 'description', 'content', 'tags'] 이 경우 폼에는 보이지 않지만 테이블의 레코드에 자동으로 채워짐.
+    success_url = reverse_lazy('blog:index')
+    
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
+
+# 블로그 리스트
+class PostChangeLV(LoginRequiredMixin, ListView):
+    templates_name = 'blog/post_change_list.html'
+    
+    def get_queryset(self):
+        return Post.objects.filter(owner=self.request.user)
+
+
+# 블로그 업데이트
+class PostUpdateView(OwnerOnlyMixin, UpdateView):
+    model = Post
+    fields = ['title', 'slug', 'description', 'content', 'tags']
+    success_url = reverse_lazy('blog:index')
+
+
+# 블로그 삭제
+class PostDeleteVeiw(OwnerOnlyMixin, DeleteView):
+    model = Post
+    success_url = reverse_lazy('blog:index')

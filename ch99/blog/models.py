@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse # URL 패턴을 만들어주는 장고의 내장 함수
 from taggit.managers import TaggableManager
+from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 
 class Post(models.Model):
@@ -18,6 +20,7 @@ class Post(models.Model):
     modify_dt = models.DateTimeField('MODIFY DATE', auto_now=True)
     # auto now : 데이터베이스에 저장될 때 시간을 기록.
     tags = TaggableManager(blank=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='OWNER', blank=True, null=True)
 
     class Meta:
         verbose_name = 'post' # 테이블 단수 별칭
@@ -39,3 +42,8 @@ class Post(models.Model):
     # -modify_dt 기준으로 그 다음 포스트를 반환. 위와 동일. modify_dt를 기준으로 예전 포스트를 반환함.
     def get_next(self):
         return self.get_next_by_modify_dt()
+    
+    # slug 필드를 자동으로 채워줌.
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title, allow_unicode=True) # allow_unicode 한글 처리 가능
+        super().save(*args, **kwargs)
