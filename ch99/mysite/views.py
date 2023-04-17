@@ -11,7 +11,7 @@ class HomeView(TemplateView):
 
 # User creation
 class UserCreateView(CreateView): # /accounts/register/ URL을 처리하는 뷰. 폼에 입력된 내용에서 에러 여부 체크해 줌.
-    templates_name = 'registration/register.html' # 화면에 보여줄 템플릿 이름. 다음 줄 form class 속성에 지정된 폼 사용.
+    template_name = 'registration/register.html' # 화면에 보여줄 템플릿 이름. 다음 줄 form class 속성에 지정된 폼 사용.
     form_class = UserCreationForm # 장고의 기본 폼 사용.
     success_url = reverse_lazy('register_done') # 테이블 레코드 생성이 완료된 후에 이동할 URL 지정. /accounts/register/done/
 

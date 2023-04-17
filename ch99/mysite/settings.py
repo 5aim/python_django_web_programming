@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'taggit.apps.TaggitAppConfig',
     'taggit_templatetags2',
-    'widget_tweaks'
+    'widget_tweaks',
     'bookmark.apps.BookmarkConfig',  # 애플리케이션의 설정 클래스로 등록하는 것이 더 정확한 방법.
     'blog.apps.BlogConfig',
     'photo.apps.PhotoConfig',

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+<!-- 폼을 꾸미기 위한 탬플릿 태그가 들어있음. -->
+{% load widget_tweaks %}
+
+{% block title %}login.html{% endblock %}
+
+{% block content %}
+
+    <h1>Please Login</h1>
+    <p class="fst-italic">Please enter your id and password</p>
+
+    {% if form.error %}
+    <div class="alert alert-danger">
+        <div class="font-weight-bold">Wrong! Please correct the error(s) below.
+        </div>
+        {{ form.errors }}
+    </div>
+    {% endif %}
+
+    <form action="." method="post" class="card pt-3">{% csrf_token %}
+        <div class="form-group row">
+            <!-- form 변수는 LoginView 뷰에서 넘겨주는 AuthenticationFrom 객체 -->
+            {{ form.username|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
+            <div class="col-sm-5">
+                <!-- autofocus 속성 -->
+                {{ form.username|add_class:"form-control"|attr:"autofocus" }}
+            </div>
+        </div>
+        <div class="form-group row">
+            {{ form.password|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
+            <div class="col-sm-5">
+                {{ form.password|add_class:"form-control" }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="offset-sm-2 col-sm-5">
+                <!-- 폼 제출 시 폼의 next 엘리먼트에 {{ next }} 변수값을 할당. next 컨텍스트 변수는 LoginView에서 넘겨줌. 로그인이 성공한 경우 {{ next }} 변수로 지정된 url로 이동 -->
+                <input type="submit" value="Log in" class="btn btn-info"/>
+                <input type="hidden" name="next" value="{{ next }}" />
+            </div>
+        </div>
+
+    </form>
+
+{% endblock %}
